@@ -1,0 +1,10 @@
+# local plaintext passwords; keep local, do not commit
+secrets/*/passwords.env
+
+# optional local overrides
+.env
+.env.*
+
+# editor/system noise
+.DS_Store
+Thumbs.db

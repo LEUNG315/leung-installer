@@ -1,0 +1,11 @@
+{
+  "ENABLE_TOOL_SEARCH": true,
+  "skipWebFetchPreflight": true,
+  "env": {
+    "ANTHROPIC_BASE_URL": "xxx",
+    "ANTHROPIC_API_KEY": "xxx",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1"
+  }
+}

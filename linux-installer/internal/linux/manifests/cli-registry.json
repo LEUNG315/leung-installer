@@ -1,0 +1,80 @@
+{
+  "clis": [
+    {
+      "id": "claude",
+      "display_name": "Claude Code",
+      "binary_name": "claude",
+      "npm_package": "@anthropic-ai/claude-code",
+      "provider_key": "claude_base_url",
+      "default_model": "claude-sonnet-4-5",
+      "native_model_optional": true,
+      "native_paths": {
+        "primary": ".claude/settings.json",
+        "secondary": ""
+      },
+      "native_value_sources": {
+        "key": "primary",
+        "url": "primary",
+        "model": "primary"
+      },
+      "auth_defaults": {
+        "api_key": ""
+      },
+      "templates": {
+        "primary": "claude/settings.json",
+        "secondary": ""
+      }
+    },
+    {
+      "id": "codex",
+      "display_name": "Codex CLI",
+      "binary_name": "codex",
+      "npm_package": "@openai/codex",
+      "provider_key": "codex_base_url",
+      "default_model": "gpt-5.4",
+      "native_model_optional": false,
+      "native_paths": {
+        "primary": ".codex/config.toml",
+        "secondary": ".codex/auth.json"
+      },
+      "native_value_sources": {
+        "key": "secondary",
+        "url": "primary",
+        "model": "primary"
+      },
+      "auth_defaults": {
+        "api_key": ""
+      },
+      "templates": {
+        "primary": "codex/config.toml",
+        "secondary": "codex/auth.json"
+      }
+    },
+    {
+      "id": "gemini",
+      "display_name": "Gemini CLI",
+      "binary_name": "gemini",
+      "npm_package": "@google/gemini-cli",
+      "provider_key": "gemini_base_url",
+      "default_model": "gemini-2.5-pro",
+      "native_model_optional": false,
+      "native_paths": {
+        "primary": ".gemini/settings.json",
+        "secondary": ".gemini/.env"
+      },
+      "native_value_sources": {
+        "key": "secondary",
+        "url": "secondary",
+        "model": "primary"
+      },
+      "auth_defaults": {
+        "api_key": "",
+        "auth_type": "gemini-api-key"
+      },
+      "templates": {
+        "primary": "gemini/settings.json",
+        "secondary": "gemini/.env"
+      }
+    }
+  ]
+}

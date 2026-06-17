@@ -1,0 +1,98 @@
+name: ci
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_live_smoke:
+        description: "Run live connectivity smoke"
+        required: false
+        default: "false"
+      live_smoke_cli:
+        description: "CLI for live smoke"
+        required: false
+        default: "codex"
+      live_smoke_url:
+        description: "Shared URL for live smoke"
+        required: false
+        default: ""
+
+jobs:
+  bootstrap-sync:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 curl
+      - name: Update bootstrap manifest pin
+        run: bash scripts/update_bootstrap_manifest.sh "$GITHUB_SHA"
+      - name: Commit bootstrap sync if changed
+        run: |
+          if git diff --quiet -- internal/linux/manifests/downloads.sh bootstrap.sh; then
+            echo "bootstrap pin already in sync"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add internal/linux/manifests/downloads.sh bootstrap.sh
+          cat > /tmp/bootstrap-sync-commit-msg <<'EOF'
+          Keep bootstrap pin aligned with latest main snapshot
+
+          Constraint: bootstrap should track the latest published main commit + archive checksum automatically
+          Rejected: manual-only bootstrap pin updates | too easy to forget during routine fixes
+          Confidence: high
+          Scope-risk: narrow
+          Directive: when main changes land, preserve bootstrap/manifest pin parity
+          Tested: bash scripts/update_bootstrap_manifest.sh $GITHUB_SHA
+          Not-tested: downstream remote bootstrap execution in this CI step
+          EOF
+          git commit -F /tmp/bootstrap-sync-commit-msg
+          git push
+
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3
+          bash scripts/install_tooling.sh .tools/bin
+          echo "$PWD/.tools/bin" >> "$GITHUB_PATH"
+      - name: Run release readiness checks
+        shell: bash
+        run: |
+          set -o pipefail
+          bash scripts/run_release_readiness.sh 2>&1 | tee release-readiness.log
+      - name: Upload release readiness log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-readiness-log
+          path: release-readiness.log
+
+  live-smoke:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_live_smoke == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 curl
+      - name: Run live smoke
+        env:
+          LEUNG_LIVE_SMOKE: "1"
+          LEUNG_LIVE_SMOKE_CLI: ${{ inputs.live_smoke_cli }}
+          LEUNG_LIVE_SMOKE_URL: ${{ inputs.live_smoke_url }}
+          LEUNG_LIVE_SMOKE_API_KEY: ${{ secrets.LEUNG_LIVE_SMOKE_API_KEY }}
+        run: bash scripts/run_smoke.sh

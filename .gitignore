@@ -1,0 +1,34 @@
+# OMX / local agent state
+**/.omx/
+**/.claude/
+
+# Python / cache
+**/__pycache__/
+**/*.pyc
+
+# Local env / secrets
+**/.env
+**/.env.*
+!**/.env.example
+**/secrets/*/passwords.env
+
+# OS / editor noise
+**/.DS_Store
+**/Thumbs.db
+
+# Generated release artifacts
+mac-installer/release-packages/
+linux-installer/dist/
+
+# Large local Windows USB build/cache artifacts
+windows-usb-install/project-cache/
+windows-usb-install/ventoy-backup/
+
+# Common large image artifacts
+**/*.iso
+**/*.img
+**/*.wim
+
+# bundle-private local/private data
+bundle-private/secrets/
+bundle-private/users.json

@@ -1,0 +1,11 @@
+{
+  "ENABLE_TOOL_SEARCH": true,
+  "skipWebFetchPreflight": true,
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.leung315.site",
+    "ANTHROPIC_API_KEY": "{{API_KEY}}",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1"
+  }
+}
