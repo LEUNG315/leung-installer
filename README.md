@@ -12,9 +12,7 @@ installers/
   bundle-private/
   linux-installer/
   mac-installer/
-  tempo-installer/
   win-installer/
-  windows-usb-install/
 ```
 
 ## 各目录说明
@@ -55,33 +53,6 @@ Windows 平台安装器。
 - `win-installer/install.ps1`
 - `win-installer/CHANGELOG.md`
 
-### `tempo-installer/`
-偏临时/专项用途的 Windows 安装器目录。
-
-当前主要包含：
-- `windows-installer/` 下的一套 Windows 安装脚本
-- 与 VM 共享目录同步有关的脚本
-
-入口参考：
-- `tempo-installer/windows-installer/README.md`
-- `tempo-installer/windows-installer/install.ps1`
-
-### `windows-usb-install/`
-Windows USB / Ventoy / WinPE 相关制作与安装辅助目录。
-
-主要用途：
-- Windows 安装 U 盘流程辅助
-- WinPE / QEMU / Ventoy 相关脚本和材料
-- 本地缓存、镜像构建、同步辅助
-
-说明：
-- 该目录下很多内容是体积较大的本地产物
-- 当前总仓 `.gitignore` 已忽略大体积缓存和备份目录
-
-入口参考：
-- `windows-usb-install/run_windows_usb_qemu_install.sh`
-- `windows-usb-install/sync-to-ventoy.sh`
-
 ### `bundle-private/`
 安装器相关的私有出包与管理工具目录。
 
@@ -109,8 +80,6 @@ Windows USB / Ventoy / WinPE 相关制作与安装辅助目录。
 
 ### 2. 大文件与本地产物不直接入库
 当前根 `.gitignore` 已忽略例如：
-- `windows-usb-install/project-cache/`
-- `windows-usb-install/ventoy-backup/`
 - `mac-installer/release-packages/`
 - `linux-installer/dist/`
 - 常见大镜像文件（如 `*.iso`、`*.img`、`*.wim`）
@@ -129,7 +98,7 @@ Windows USB / Ventoy / WinPE 相关制作与安装辅助目录。
 如果你只关心单个平台：
 - Linux：进入 `linux-installer/`
 - macOS：进入 `mac-installer/`
-- Windows：进入 `win-installer/` 或对应专项目录
+- Windows：进入 `win-installer/`
 
 如果你关心整体发布链路：
 - 先看各子目录 README
