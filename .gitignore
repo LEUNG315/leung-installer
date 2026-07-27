@@ -32,3 +32,6 @@ windows-usb-install/ventoy-backup/
 # bundle-private local/private data
 bundle-private/secrets/
 bundle-private/users.json
+
+# OMC state
+.omc/
