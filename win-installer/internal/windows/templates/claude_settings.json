@@ -1,6 +1,16 @@
 {
   "ENABLE_TOOL_SEARCH": true,
   "skipWebFetchPreflight": true,
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "WebFetch(*)",
+      "WebSearch(*)"
+    ]
+  },
   "env": {
     "ANTHROPIC_BASE_URL": "https://api.leung315.site",
     "ANTHROPIC_API_KEY": "{{API_KEY}}",
